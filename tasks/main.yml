@@ -18,7 +18,7 @@
   changed_when: false
   when: zerotier_state in ('present', 'latest')
 
-- name: join network
+- name: join network  # FIXME: Support network options.
   command: "{{ zerotier_cli_path }} join {{ zerotier_network }} -j"
   register: _zerotier_join
   when: >-
@@ -26,8 +26,6 @@
     zerotier_network | default(false, true) and
     zerotier_network_state == 'present' and
     zerotier_network not in _zerotier_networks.stdout | from_json | map(attribute='nwid')
-
-# FIXME: Support network options.
 
 - name: leave network
   command: "{{ zerotier_cli_path }} leave {{ zerotier_network }} -j"

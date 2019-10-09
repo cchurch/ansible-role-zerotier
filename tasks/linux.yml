@@ -20,10 +20,8 @@
     state: latest  # noqa 403
   when: _zerotier_version is succeeded and zerotier_state == 'latest'
 
-- name: uninstall zerotier
+- name: uninstall zerotier  # FIXME: Also remove zerotier repo on uninstall?
   package:
     name: "{{ zerotier_package_name }}"
     state: absent
   when: _zerotier_version is succeeded and zerotier_state == 'absent'
-
-# FIXME: Also remove zerotier repo on uninstall
