@@ -118,6 +118,41 @@ matrix:
       env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="ubuntu16"'
     - python: "3.7"
       env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="ubuntu18"'
+  allow_failures:
+    - python: "2.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.4.0" ANSIBLE_LIMIT="debian8"'
+    - python: "2.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.4.0" ANSIBLE_LIMIT="ubuntu16"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.5.0" ANSIBLE_LIMIT="debian8"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.5.0" ANSIBLE_LIMIT="ubuntu16"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.6.0" ANSIBLE_LIMIT="debian8"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.6.0" ANSIBLE_LIMIT="ubuntu16"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.7.0" ANSIBLE_LIMIT="debian8"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.7.0" ANSIBLE_LIMIT="ubuntu16"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="amazon"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="centos6"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="centos7"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="debian8"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="debian9"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="debian10"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="ubuntu14"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="ubuntu16"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="ubuntu18"'
 
 before_install:
   - sudo apt-get update -qq
@@ -133,7 +168,7 @@ install:
 script:
   - ansible-playbook -i tests/inventory tests/main.yml --syntax-check
   - ansible-lint tests/main.yml
-#  - ansible-playbook -i tests/inventory -l $ANSIBLE_LIMIT tests/main.yml -vv
+  - ansible-playbook -i tests/inventory -l $ANSIBLE_LIMIT tests/main.yml -vv
 
 after_script:
   - ansible-playbook -i tests/inventory tests/cleanup.yml

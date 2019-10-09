@@ -15,7 +15,7 @@
     - name: compare current and latest versions
       set_fact:
         _zerotier_needs_upgrade: >-
-          {{ _zerotier_version.stdout |
+          {{ _zerotier_version.stdout is
           version_compare(_zerotier_latest_release.json.tag_name, operator='lt') |
           bool }}
   when: zerotier_state == 'latest' and _zerotier_version is succeeded

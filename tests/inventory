@@ -8,7 +8,7 @@ ansible_python_interpreter=/usr/bin/env python
 [containers]
 zerotier_amazon image="amazonlinux:latest"
 zerotier_centos6 image="centos:6"
-zerotier_centos7 image="centos:7"
+zerotier_centos7 image="flyingfred0/ansible-role-testing:centos7-systemd"
 zerotier_debian8 image="debian:jessie"
 zerotier_debian9 image="debian:stretch"
 zerotier_debian10 image="debian:buster"
