@@ -1,6 +1,7 @@
 ---
 
 galaxy_info:
+  role_name: zerotier
   author: Chris Church
   description: "Install the ZeroTier network client."
   company: Nine More Minutes, Inc.
