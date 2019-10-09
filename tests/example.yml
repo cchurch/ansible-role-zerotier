@@ -1,0 +1,9 @@
+---
+
+- name: install zerotier
+  hosts: all
+  roles:
+    - name: cchurch.zerotier
+      vars:
+        zerotier_state: present
+        zerotier_network: "deadbeefcafe1234"

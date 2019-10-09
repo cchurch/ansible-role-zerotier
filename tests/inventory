@@ -1,0 +1,63 @@
+[local]
+localhost
+
+[local:vars]
+ansible_connection=local
+ansible_python_interpreter=/usr/bin/env python
+
+[containers]
+zerotier_amazon image="amazonlinux:latest"
+zerotier_centos6 image="centos:6"
+zerotier_centos7 image="centos:7"
+zerotier_debian8 image="debian:jessie"
+zerotier_debian9 image="debian:stretch"
+zerotier_debian10 image="debian:buster"
+zerotier_ubuntu14 image="ubuntu:trusty"
+zerotier_ubuntu16 image="ubuntu:xenial"
+zerotier_ubuntu18 image="ubuntu:bionic"
+
+[containers:vars]
+ansible_connection=docker
+ansible_user=root
+test_zerotier_network=35c192ce9b48566e  # private test network
+
+[amazon]
+zerotier_amazon
+
+[centos:children]
+centos6
+centos7
+
+[centos6]
+zerotier_centos6
+
+[centos7]
+zerotier_centos7
+
+[debian:children]
+debian8
+debian9
+debian10
+
+[debian8]
+zerotier_debian8
+
+[debian9]
+zerotier_debian9
+
+[debian10]
+zerotier_debian10
+
+[ubuntu:children]
+ubuntu14
+ubuntu16
+ubuntu18
+
+[ubuntu14]
+zerotier_ubuntu14
+
+[ubuntu16]
+zerotier_ubuntu16
+
+[ubuntu18]
+zerotier_ubuntu18

@@ -1,0 +1,39 @@
+---
+
+- name: check for supported platform
+  assert:
+    that:
+      - ansible_system in ('Darwin', 'Linux', 'Windows')
+      - zerotier_state in ('present', 'latest', 'absent')
+
+- name: include variables for current system
+  include_vars: "{{ ansible_system | lower }}.yml"
+
+- name: run tasks for current system
+  include_tasks: "{{ ansible_system | lower }}.yml"
+
+- name: retrieve currently joined networks
+  command: "{{ zerotier_cli_path }} listnetworks -j"
+  register: _zerotier_networks
+  changed_when: false
+  when: zerotier_state in ('present', 'latest')
+
+- name: join network
+  command: "{{ zerotier_cli_path }} join {{ zerotier_network }} -j"
+  register: _zerotier_join
+  when: >-
+    zerotier_state in ('present', 'latest') and
+    zerotier_network | default(false, true) and
+    zerotier_network_state == 'present' and
+    zerotier_network not in _zerotier_networks.stdout | from_json | map(attribute='nwid')
+
+# FIXME: Support network options.
+
+- name: leave network
+  command: "{{ zerotier_cli_path }} leave {{ zerotier_network }} -j"
+  register: _zerotier_leave
+  when: >-
+    zerotier_state in ('present', 'latest') and
+    zerotier_network | default(false, true) and
+    zerotier_network_state == 'absent' and
+    zerotier_network in _zerotier_networks.stdout | from_json | map(attribute='nwid')

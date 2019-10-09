@@ -1,0 +1,35 @@
+---
+
+- name: install zerotier and join a network
+  hosts: containers
+  tags: [install, join]
+  roles:
+    - name: cchurch.zerotier
+      vars:
+        zerotier_state: present
+        zerotier_network: "{{ test_zerotier_network | default('', true) }}"
+
+- name: update zerotier
+  hosts: containers
+  tags: [update]
+  roles:
+    - name: cchurch.zerotier
+      vars:
+        zerotier_state: latest
+
+- name: leave a network
+  hosts: containers
+  tags: [leave]
+  roles:
+    - name: cchurch.zerotier
+      vars:
+        zerotier_network: "{{ test_zerotier_network | default('', true) }}"
+        zerotier_network_state: absent
+
+- name: uninstall zerotier
+  hosts: containers
+  tags: [uninstall]
+  roles:
+    - name: cchurch.zerotier
+      vars:
+        zerotier_state: absent

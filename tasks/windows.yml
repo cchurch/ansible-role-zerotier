@@ -1,0 +1,5 @@
+---
+
+- name: not yet supported
+  fail:
+    msg: "{{ ansible_system }} is not yet supported!"

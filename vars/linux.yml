@@ -1,0 +1,5 @@
+---
+
+zerotier_cli_path: /usr/sbin/zerotier-cli
+zerotier_install_url: https://install.zerotier.com 
+zerotier_package_name: zerotier-one

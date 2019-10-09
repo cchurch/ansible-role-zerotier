@@ -1,0 +1,10 @@
+---
+
+- name: setup docker containers
+  import_playbook: setup.yml
+
+- name: run tests for role
+  import_playbook: test.yml
+
+- name: cleanup docker containers
+  import_playbook: cleanup.yml

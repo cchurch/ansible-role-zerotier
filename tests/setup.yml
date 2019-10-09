@@ -1,0 +1,30 @@
+---
+
+- name: launch docker containers
+  hosts: containers
+  gather_facts: false
+  roles:
+    - role: chrismeyersfsu.provision_docker
+      provision_docker_inventory_group:
+        - "{{ inventory_hostname }}"
+      delegate_to: localhost
+
+- name: check and install python on ubuntu/debian containers
+  hosts: ubuntu:debian:&containers
+  gather_facts: false
+  tasks:
+    - name: check for and install python
+      raw: test -e /usr/bin/python || (apt-get -y update && apt-get install -y python-minimal)
+      register: _check_python_result
+      changed_when: _check_python_result.stdout
+    - name: install ca certificates and curl
+      apt:
+        name:
+          - ca-certificates
+          - curl
+
+- name: test connection to containers
+  hosts: containers
+  tasks:
+    - name: ping it
+      action: ping

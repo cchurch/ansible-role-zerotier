@@ -1,0 +1,29 @@
+---
+
+- name: check if zerotier-cli is installed
+  command: "{{ zerotier_cli_path | quote }} -v"
+  register: _zerotier_version
+  changed_when: false
+  ignore_errors: true
+
+- name: install zerotier
+  shell: |
+    set -o pipefail
+    curl -s {{ zerotier_install_url | quote }} | bash
+  args:
+    executable: /bin/bash
+  when: _zerotier_version is failed and zerotier_state in ('present', 'latest')
+
+- name: update zerotier
+  package:
+    name: "{{ zerotier_package_name }}"
+    state: latest  # noqa 403
+  when: _zerotier_version is succeeded and zerotier_state == 'latest'
+
+- name: uninstall zerotier
+  package:
+    name: "{{ zerotier_package_name }}"
+    state: absent
+  when: _zerotier_version is succeeded and zerotier_state == 'absent'
+
+# FIXME: Also remove zerotier repo on uninstall

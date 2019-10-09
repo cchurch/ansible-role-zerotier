@@ -1,0 +1,6 @@
+---
+
+- name: install zerotier
+  hosts: localhost
+  roles:
+    - name: cchurch.zerotier

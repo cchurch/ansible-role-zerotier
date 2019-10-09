@@ -1,0 +1,62 @@
+---
+
+- name: check if zerotier-cli is installed
+  command: "{{ zerotier_cli_path | quote }} -v"
+  register: _zerotier_version
+  changed_when: false
+  ignore_errors: true
+
+- name: compare zerotier versions
+  block:
+    - name: fetch latest zerotier release version
+      uri:
+        url: https://api.github.com/repos/zerotier/ZeroTierOne/releases/latest
+      register: _zerotier_latest_release
+    - name: compare current and latest versions
+      set_fact:
+        _zerotier_needs_upgrade: >-
+          {{ _zerotier_version.stdout |
+          version_compare(_zerotier_latest_release.json.tag_name, operator='lt') |
+          bool }}
+  when: zerotier_state == 'latest' and _zerotier_version is succeeded
+
+- name: install or update zerotier
+  block:
+    - name: create temporary file for zerotier package
+      tempfile:
+        state: file
+        prefix: ZeroTierOne
+        suffix: .pkg
+      register: _zerotier_tempfile
+    - name: download zerotier package
+      get_url:
+        url: "{{ zerotier_pkg_url }}"
+        dest: "{{ _zerotier_tempfile.path }}"
+        force: true
+    - name: install zerotier package
+      command: installer -pkg {{ _zerotier_tempfile.path | quote }} -target /
+    # FIXME: How to allow system extension automatically?
+    - name: wait for zerotier secret file to be generated
+      wait_for:
+        path: "{{ zerotier_secret_path }}"
+        timeout: 30
+  always:
+    - name: remove temporary package file
+      file:
+        path: "{{ _zerotier_tempfile.path }}"
+        state: absent
+      when: _zerotier_tempfile.path | default(false, true)
+  when: >-
+    (zerotier_state in ('present', 'latest') and _zerotier_version is failed) or
+    (zerotier_state == 'latest' and _zerotier_needs_upgrade | default(false))
+
+- name: uninstall zerotier
+  block:
+    - name: check if zerotier uninstall script is present
+      stat:
+        path: "{{ zerotier_uninstall_script }}"
+      register: _zerotier_uninstall_stat
+    - name: remove zerotier via uninstall script
+      command: "{{ zerotier_uninstall_script | quote }}"
+      when: _zerotier_uninstall_stat.stat.exists
+  when: zerotier_state == 'absent'

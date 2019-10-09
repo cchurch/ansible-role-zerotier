@@ -1,0 +1,6 @@
+---
+
+zerotier_cli_path: /usr/local/bin/zerotier-cli
+zerotier_pkg_url: https://download.zerotier.com/dist/ZeroTier%20One.pkg
+zerotier_secret_path: "/Library/Application Support/ZeroTier/One/identity.secret"
+zerotier_uninstall_script: "/Library/Application Support/ZeroTier/One/uninstall.sh"

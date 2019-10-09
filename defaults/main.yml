@@ -1,0 +1,16 @@
+---
+
+# present | absent | latest
+zerotier_state: present
+
+# network id (16 hex digits)
+zerotier_network: ""
+
+# present | absent
+zerotier_network_state: present
+
+# network options to set with zerotier-cli set
+zerotier_network_options:
+  allowDefault: false
+  allowGlobal: false
+  allowManaged: true
