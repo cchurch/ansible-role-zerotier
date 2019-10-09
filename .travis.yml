@@ -137,6 +137,10 @@ matrix:
     - python: "3.7"
       env: 'ANSIBLE_VERSION="ansible~=2.7.0" ANSIBLE_LIMIT="ubuntu16"'
     - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.8.0" ANSIBLE_LIMIT="debian8"'
+    - python: "3.7"
+      env: 'ANSIBLE_VERSION="ansible~=2.8.0" ANSIBLE_LIMIT="ubuntu16"'
+    - python: "3.7"
       env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="amazon"'
     - python: "3.7"
       env: 'ANSIBLE_VERSION="git+https://github.com/ansible/ansible.git@devel" ANSIBLE_LIMIT="centos6"'
