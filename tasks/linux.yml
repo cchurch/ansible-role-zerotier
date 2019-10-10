@@ -25,3 +25,6 @@
     name: "{{ zerotier_package_name }}"
     state: absent
   when: _zerotier_version is succeeded and zerotier_state == 'absent'
+
+- name: join/leave network
+  include_tasks: "network.yml"

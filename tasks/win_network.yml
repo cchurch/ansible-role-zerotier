@@ -1,0 +1,25 @@
+---
+
+- name: retrieve currently joined networks
+  win_command: "{{ zerotier_cli_path }} listnetworks -j"
+  register: _zerotier_networks
+  changed_when: false
+  when: zerotier_state in ('present', 'latest')
+
+- name: join network  # FIXME: Support network options.
+  win_command: "{{ zerotier_cli_path }} join {{ zerotier_network }} -j"
+  register: _zerotier_join
+  when: >-
+    zerotier_state in ('present', 'latest') and
+    zerotier_network | default(false, true) and
+    zerotier_network_state == 'present' and
+    zerotier_network not in _zerotier_networks.stdout | from_json | map(attribute='nwid')
+
+- name: leave network
+  win_command: "{{ zerotier_cli_path }} leave {{ zerotier_network }} -j"
+  register: _zerotier_leave
+  when: >-
+    zerotier_state in ('present', 'latest') and
+    zerotier_network | default(false, true) and
+    zerotier_network_state == 'absent' and
+    zerotier_network in _zerotier_networks.stdout | from_json | map(attribute='nwid')

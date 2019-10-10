@@ -1,0 +1,8 @@
+---
+
+zerotier_cli_path: zerotier-cli.bat
+zerotier_msi_url: https://download.zerotier.com/dist/ZeroTier%20One.msi
+zerotier_product_ids:
+  - "{4AFE4740-C680-40FE-B6B0-0C15EB0176F1}"
+  - "{80CEE5C9-4DF0-43F5-B232-484D6455978E}"
+zerotier_secret_path: "{{ ansible_env.ProgramData }}\\ZeroTier\\One\\identity.secret"

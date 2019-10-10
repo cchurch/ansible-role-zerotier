@@ -2,4 +2,5 @@ ansible
 ansible-lint
 bumpversion
 docker
+pywinrm
 tox
