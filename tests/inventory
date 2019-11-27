@@ -9,10 +9,8 @@ ansible_python_interpreter=/usr/bin/env python
 zerotier_amazon image="amazonlinux:latest"
 zerotier_centos6 image="centos:6"
 zerotier_centos7 image="flyingfred0/ansible-role-testing:centos7-systemd"
-zerotier_debian8 image="debian:jessie"
 zerotier_debian9 image="debian:stretch"
 zerotier_debian10 image="debian:buster"
-zerotier_ubuntu14 image="ubuntu:trusty"
 zerotier_ubuntu16 image="ubuntu:xenial"
 zerotier_ubuntu18 image="ubuntu:bionic"
 
@@ -35,12 +33,8 @@ zerotier_centos6
 zerotier_centos7
 
 [debian:children]
-debian8
 debian9
 debian10
-
-[debian8]
-zerotier_debian8
 
 [debian9]
 zerotier_debian9
@@ -49,12 +43,8 @@ zerotier_debian9
 zerotier_debian10
 
 [ubuntu:children]
-ubuntu14
 ubuntu16
 ubuntu18
-
-[ubuntu14]
-zerotier_ubuntu14
 
 [ubuntu16]
 zerotier_ubuntu16
